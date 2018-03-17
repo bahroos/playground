@@ -1,0 +1,137 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: Country Example
+  description: Sample Description
+host: localhost:8080/CountryExample
+basePath: /rest
+tags:
+- name: Countries
+  description: Everything about countries
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /countries:
+    get:
+      tags:
+      - Countries
+      summary: Returns all countries
+      description: Countries with population
+      responses:
+        200:
+          description: Countries
+          schema:
+            $ref: '#/definitions/Countries'
+    post:
+      tags:
+      - Countries
+      summary: Add Country to the Existing Database
+      description: ""
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Country object that needs to be added in the DB
+        required: true
+        schema:
+          $ref: '#/definitions/Country'
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int64
+    put:
+      tags:
+      - Countries
+      summary: Update the country
+      description: ""
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Country object that needs to be added in the DB
+        required: true
+        schema:
+          $ref: '#/definitions/Country'
+      responses:
+        200:
+          description: Country updated
+
+  /countries/{id}:
+    get:
+      tags:
+      - Countries
+      summary: GetCounty by ID
+      description: Get a country by ID
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: id of the country selected
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/Country"
+        404:
+          description: Not found
+    delete:
+      tags:
+      - Countries
+      summary: Delete country by ID
+      description: Delete the country by its ID
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: id of the country selected
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Success
+        404:
+          description: Not found
+definitions:
+  Countries:
+    type: object
+    description: List of countries
+    properties:
+      Countries:
+        type: array
+        items:
+          $ref: '#/definitions/Country'
+  Country:
+    type: object
+    description: List of countries
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Id of the country
+      countryName:
+        type: string
+        description: Country name
+      population:
+        type: integer
+        format: int64
+        description: Population of the country
